@@ -57,10 +57,10 @@ t_accuracy = correct / t_labels.size(0)
 a_acc = (t_accuracy*100+accuracy*100)/2
 print(f'Test Accuracy: {t_accuracy*100}')
 print(f'Average Accuracy: {a_acc}')
-with open(r"C:\Users\yanlo\Documents\mnist_best_model_accuracy.txt",'r') as file:
+with open(r"mnist_best_model_accuracy.txt",'r') as file:
     best = float(file.read())
 if a_acc > best:
-    with open(r"C:\Users\yanlo\Documents\mnist_best_model_accuracy.txt",'w') as file:
+    with open(r"mnist_best_model_accuracy.txt",'w') as file:
         file.write(str(a_acc))
     torch.save(model.state_dict(), r"C:\Users\yanlo\Documents\mnist_best_model.pth")
 plt.plot(range(len(acuracies)),acuracies, label = 'Training Accuracy')
