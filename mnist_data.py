@@ -3,7 +3,7 @@ import torch
 def data():
     #Getting everthing
     e = []
-    with open(r"C:\Users\yanlo\Documents\mnist.txt",'r') as file:
+    with open("mnist.txt",'r') as file:
         for line in file:
             stuff = line.strip().split(",")
             e.append(stuff)
