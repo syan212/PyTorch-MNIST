@@ -7,6 +7,10 @@ def data():
         for line in file:
             stuff = line.strip().split(",")
             e.append(stuff)
+    with open("mnist2.txt",'r') as file:
+        for line in file:
+            stuff = line.strip().split(",")
+            e.append(stuff)
     #seperating labels and data
     labels = []
     data_pre = []
