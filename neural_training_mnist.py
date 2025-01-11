@@ -62,7 +62,7 @@ with open(r"mnist_best_model_accuracy.txt",'r') as file:
 if a_acc > best:
     with open(r"mnist_best_model_accuracy.txt",'w') as file:
         file.write(str(a_acc))
-    torch.save(model.state_dict(), r"C:\Users\yanlo\Documents\mnist_best_model.pth")
+    torch.save(model.state_dict(), r"mnist_best_model.pth")
 plt.plot(range(len(acuracies)),acuracies, label = 'Training Accuracy')
 plt.plot(range(len(t_accuracies)),t_accuracies, label = 'Test Accuracy')
 plt.legend()
