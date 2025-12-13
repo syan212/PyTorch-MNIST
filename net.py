@@ -1,17 +1,17 @@
-import torch.nn as nn
+from torch import nn
 
 
 class Net(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super().__init__()
         self.network = nn.Sequential(
             nn.Linear(784, 500),
             nn.ReLU(),
-            nn.Linear(500, 100),
+            nn.Linear(500, 500),
             nn.ReLU(),
-            nn.Linear(100, 50),
+            nn.Linear(500, 250),
             nn.ReLU(),
-            nn.Linear(50, 10),
+            nn.Linear(250, 10),
             nn.Softmax(dim=1),
         )
 

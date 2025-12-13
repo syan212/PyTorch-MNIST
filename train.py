@@ -1,24 +1,36 @@
-import mnist_data
 import matplotlib.pyplot as plt
+from rich import print as rprint
 import torch
 import torch.nn as nn
 import torch.optim as optim
+
+from interactive import interactive_mode
+import mnist_data
 from net import Net
 
-print("Loading and organizing data")
+rprint('[bold]Loading and organizing data...[/bold]')
 
 data, labels, t_data, t_labels = mnist_data.data()
 
-print("Data loaded and organized")
+rprint('[bold green]Data loaded and organized.[/bold green]')
 
 model = Net()
 lr = 0.005
-epochs = int(input("Enter number of epochs:"))
+epochs = input('Enter number of epochs: ')
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=lr)
 acuracies = []
 t_accuracies = []
+try:
+    epochs = int(epochs)
+except ValueError:
+    epochs = 100
+    rprint('[red]Invalid input, defaulting to 100 epochs[/red]')
+if epochs <= 0:
+    rprint('[red]Number of epochs must be positive, defaulting to 100 epochs[/red]')
+    epochs = 100
 
+accuracy = 0
 for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
@@ -39,41 +51,39 @@ for epoch in range(epochs):
     t_accuracy = correct / t_labels.size(0)
     t_accuracies.append(t_accuracy * 100)
     print(
-        f"Epoch {epoch + 1}/{epochs}, Loss: {loss.item()}, Accuracy: {accuracy * 100}%"
+        f'Epoch {epoch + 1}/{epochs}, Loss: {loss.item()}, Accuracy: {accuracy * 100}%'
     )
 
-print("Training complete")
+rprint('[bold green]Training complete[/bold green]')
 
 output = model(t_data)
 correct = 0
 _, predicted = torch.max(output, 1)
 correct = (predicted == t_labels).sum().item()
 t_accuracy = correct / t_labels.size(0)
-a_acc = (t_accuracy * 100 + accuracy * 100) / 2
+a_acc = (t_accuracy + accuracy * 6) / 7 * 100
 
-print(f"Test Accuracy: {t_accuracy * 100}")
-print(f"Average Accuracy: {a_acc}")
+rprint(f'[blue bold]Test Accuracy: {t_accuracy * 100}[/blue bold]')
+rprint(f'[blue bold]Average Accuracy: {a_acc}[/blue bold]')
 
-with open(r"mnist_best_model_accuracy.txt", "r") as file:
-    best = float(file.read())
+try:
+    with open('mnist_best_model_accuracy.txt') as file:
+        best = float(file.read())
+except FileNotFoundError:
+    best = 0.0
+
 if a_acc > best:
-    with open(r"mnist_best_model_accuracy.txt", "w") as file:
+    with open('mnist_best_model_accuracy.txt', 'w') as file:
         file.write(str(a_acc))
-    torch.save(model.state_dict(), r"mnist_best_model.pth")
+    torch.save(model.state_dict(), 'mnist_best_model.pth')
 
-plt.plot(range(len(acuracies)), acuracies, label="Training Accuracy")
-plt.plot(range(len(t_accuracies)), t_accuracies, label="Test Accuracy")
+plt.plot(range(len(acuracies)), acuracies, label='Training Accuracy')
+plt.plot(range(len(t_accuracies)), t_accuracies, label='Test Accuracy')
 plt.legend()
-plt.xlabel("Epochs")
-plt.ylabel("Accuracy")
-plt.title("Accuracy over time")
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.title('Accuracy over time')
 plt.show()
 
-while True:
-    try:
-        index = int(input("Enter an index:"))
-        plt.imshow(t_data[index].reshape(28, 28), cmap="Greys")
-        plt.title(f"Prediction: {torch.argmax(output[index])}")
-        plt.show()
-    except:
-        break
+print('Entering interactive mode for test data...')
+interactive_mode(t_data, output)

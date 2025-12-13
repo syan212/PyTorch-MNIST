@@ -1,0 +1,20 @@
+target-version = "py314"
+
+[format]
+quote-style = "single"
+line-ending = "lf"
+
+[lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N", "Q", "TC"]
+
+ignore = ["E501"] # Delegate to formatter
+
+[lint.flake8-quotes]
+inline-quotes = "single"
+
+[lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
+
+[lint.flake8-type-checking]
+strict = true
