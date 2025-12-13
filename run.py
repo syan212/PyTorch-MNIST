@@ -5,11 +5,7 @@ from interactive import interactive_mode
 import mnist_data
 from net import Net
 
-rprint('[bold]Loading and organizing data...[/bold]')
-
 data, labels, t_data, t_labels = mnist_data.data()
-
-rprint('[bold green]Data loaded and organized.[/bold green]')
 
 model = Net()
 try:

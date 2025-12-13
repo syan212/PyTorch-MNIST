@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 import numpy as np
+from rich import print as rprint
 from rich.progress import track
 import torch
 
@@ -9,14 +10,16 @@ if TYPE_CHECKING:
 
 
 def data() -> tuple[Tensor, Tensor, Tensor, Tensor]:
+    rprint('[bold]Loading and organizing data...[/bold]')
+    
     # Getting everthing
     e: list[list[str]] = []
     with open('mnist.txt') as file:
-        for line in track(file, description='Loading data from first file...'):
+        for line in file:
             stuff = line.strip().split(',')
             e.append(stuff)
     with open('mnist2.txt') as file:
-        for line in track(file, description='Loading data from second file...'):
+        for line in file:
             stuff = line.strip().split(',')
             e.append(stuff)
 
@@ -49,5 +52,6 @@ def data() -> tuple[Tensor, Tensor, Tensor, Tensor]:
     data = torch.tensor(data[:num], dtype=torch.float)
     labels = torch.tensor(labels[:num], dtype=torch.long)
 
+    rprint('[bold green]Data loaded and organized.[/bold green]')
     # Return data and labels as testing data and labels and training data and labels
     return data, labels, t_data, t_labels

@@ -5,15 +5,10 @@ import torch.nn as nn
 import torch.optim as optim
 
 from interactive import interactive_mode
-import mnist_data
+from mnist_data import data as get_data
 from net import Net
 
-rprint('[bold]Loading and organizing data...[/bold]')
-
-data, labels, t_data, t_labels = mnist_data.data()
-
-rprint('[bold green]Data loaded and organized.[/bold green]')
-
+data, labels, t_data, t_labels = get_data()
 model = Net()
 lr = 0.005
 epochs = input('Enter number of epochs: ')
