@@ -80,5 +80,5 @@ plt.ylabel('Accuracy')
 plt.title('Accuracy over time')
 plt.show()
 
-print('Entering interactive mode for test data...')
+rprint('[bold]Entering interactive mode for test data...[bold]')
 interactive_mode(t_data, output)

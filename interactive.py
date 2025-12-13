@@ -9,7 +9,8 @@ console = Console()
 def interactive_mode(data, output):
     while True:
         try:
-            index = int(input('Enter an index: '))
+            index = input('Enter an index: ')
+            index = int(index)
             plt.imshow(data[index].reshape(28, 28), cmap='Greys')
             plt.title(f'Prediction: {torch.argmax(output[index])}')
             plt.show()
@@ -33,4 +34,6 @@ def interactive_mode(data, output):
             rprint(f'[red]Please enter an index between 0 and {data.size(0) - 1}.')
         except KeyboardInterrupt:
             rprint('\n[red]Exiting.')
+            exit()
             break
+    exit()
