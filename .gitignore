@@ -2,3 +2,5 @@ mnist_best_model.pth
 __pycache__/
 *.pyc
 mnist_best_model_accuracy.txt
+.venv/
+.ruff_cache/

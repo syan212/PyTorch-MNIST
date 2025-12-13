@@ -1,3 +1,4 @@
+from compression.zstd import open
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -11,19 +12,16 @@ if TYPE_CHECKING:
 
 def data() -> tuple[Tensor, Tensor, Tensor, Tensor]:
     rprint('[bold]Loading and organizing data...[/bold]')
-    
-    # Getting everthing
+
+    # Getting everything
     e: list[list[str]] = []
-    with open('mnist.txt') as file:
-        for line in file:
-            stuff = line.strip().split(',')
-            e.append(stuff)
-    with open('mnist2.txt') as file:
-        for line in file:
+    with open('mnist.txt.zst') as file:
+        info = file.read().decode('utf-8').split('\n')
+        for line in info:
             stuff = line.strip().split(',')
             e.append(stuff)
 
-    # Seperating labels and data
+    # Separating labels and data
     labels_pre: list[int] = []
     data_pre: list[list[str]] = []
     for i in track(e, description='Organizing data...'):

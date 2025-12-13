@@ -14,7 +14,7 @@ lr = 0.005
 epochs = input('Enter number of epochs: ')
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=lr)
-acuracies = []
+accuracies = []
 t_accuracies = []
 try:
     epochs = int(epochs)
@@ -26,7 +26,7 @@ if epochs <= 0:
     epochs = 100
 
 accuracy = 0
-for epoch in range(epochs):
+for epoch in range(1, epochs + 1):
     model.train()
     optimizer.zero_grad()
     outputs = model(data)
@@ -37,7 +37,7 @@ for epoch in range(epochs):
     _, predicted = torch.max(outputs, 1)
     correct = (predicted == labels).sum().item()
     accuracy = correct / labels.size(0)
-    acuracies.append(accuracy * 100)
+    accuracies.append(accuracy * 100)
 
     output = model(t_data)
     correct = 0
@@ -46,7 +46,7 @@ for epoch in range(epochs):
     t_accuracy = correct / t_labels.size(0)
     t_accuracies.append(t_accuracy * 100)
     print(
-        f'Epoch {epoch + 1}/{epochs}, Loss: {loss.item()}, Accuracy: {accuracy * 100}%'
+        f'Epoch {epoch:03}/{epochs:03}, Loss: {loss.item():.5f}, Accuracy: {accuracy:09.5%}, Test Accuracy: {t_accuracy:09.5%}'
     )
 
 rprint('[bold green]Training complete[/bold green]')
@@ -72,7 +72,7 @@ if a_acc > best:
         file.write(str(a_acc))
     torch.save(model.state_dict(), 'mnist_best_model.pth')
 
-plt.plot(range(len(acuracies)), acuracies, label='Training Accuracy')
+plt.plot(range(len(accuracies)), accuracies, label='Training Accuracy')
 plt.plot(range(len(t_accuracies)), t_accuracies, label='Test Accuracy')
 plt.legend()
 plt.xlabel('Epochs')
