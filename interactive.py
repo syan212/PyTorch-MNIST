@@ -9,12 +9,15 @@ console = Console()
 def interactive_mode(data, output):
     while True:
         try:
-            index = input('Enter an index: ')
+            index = input('Enter an index (enter q to exit): ')
             index = int(index)
             plt.imshow(data[index].reshape(28, 28), cmap='Greys')
             plt.title(f'Prediction: {torch.argmax(output[index])}')
             plt.show()
         except ValueError:
+            if index == 'q':
+                rprint('[red]Exiting[/red]')
+                break
             if (
                 console.input(
                     '[red]Invalid input.[/red] [bold]Do you want to exit? (y/n)[/bold]: '
