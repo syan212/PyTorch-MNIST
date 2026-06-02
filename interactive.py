@@ -33,7 +33,7 @@ def interactive_mode(data, output):
                 break
             rprint(f'[red]Please enter an index between 0 and {data.size(0) - 1}.')
         except KeyboardInterrupt:
-            rprint('\n[red]Exiting.')
             exit()
+            rprint('\n[red]Exiting.')
             break
     exit()
