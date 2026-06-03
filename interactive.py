@@ -1,12 +1,19 @@
+from sys import exit
+from typing import TYPE_CHECKING
+
 import matplotlib.pyplot as plt
 from rich import print as rprint
 from rich.console import Console
 import torch
 
+if TYPE_CHECKING:
+    from torch import Tensor
+
+
 console = Console()
 
 
-def interactive_mode(data, output):
+def interactive_mode(data: Tensor, output: Tensor) -> None:
     while True:
         try:
             index = input('Enter an index (enter q to exit): ')
@@ -36,7 +43,6 @@ def interactive_mode(data, output):
                 break
             rprint(f'[red]Please enter an index between 0 and {data.size(0) - 1}.')
         except KeyboardInterrupt:
-            exit()
             rprint('\n[red]Exiting.')
             break
     exit()

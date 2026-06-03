@@ -1,12 +1,17 @@
+import pathlib
+from typing import TYPE_CHECKING
+
 import matplotlib.pyplot as plt
 from rich import print as rprint
 import torch
-import torch.nn as nn
-import torch.optim as optim
+from torch import nn, optim
 
 from interactive import interactive_mode
 from mnist_data import data as get_data
 from net import Net
+
+if TYPE_CHECKING:
+    from torch import Tensor
 
 data, labels, t_data, t_labels = get_data()
 model = Net()
@@ -51,7 +56,7 @@ for epoch in range(1, epochs + 1):
 
 rprint('[bold green]Training complete[/bold green]')
 
-output = model(t_data)
+output: Tensor = model(t_data)
 correct = 0
 _, predicted = torch.max(output, 1)
 correct = (predicted == t_labels).sum().item()
@@ -62,13 +67,13 @@ rprint(f'[blue bold]Test Accuracy: {t_accuracy * 100}[/blue bold]')
 rprint(f'[blue bold]Average Accuracy: {a_acc}[/blue bold]')
 
 try:
-    with open('mnist_best_model_accuracy.txt') as file:
+    with pathlib.Path('mnist_best_model_accuracy.txt').open(encoding='utf8') as file:
         best = float(file.read())
 except FileNotFoundError:
     best = 0.0
 
 if a_acc > best:
-    with open('mnist_best_model_accuracy.txt', 'w') as file:
+    with pathlib.Path('mnist_best_model_accuracy.txt').open('w', encoding='utf8') as file:
         file.write(str(a_acc))
     torch.save(model.state_dict(), 'mnist_best_model.pth')
 
